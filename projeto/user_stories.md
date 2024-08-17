@@ -37,3 +37,23 @@ Como **Professor**,
 Quero **visualizar as disciplinas que leciono**,
 
 Para que **possa organizar meu calendário e atividades de ensino**.
+
+
+
+### 5. **História de Usuário: Cadastrar Disciplinas**
+
+Como **Secretaria**,
+
+Quero **cadastrar novas disciplinas no sistema**,
+
+Para que **as disciplinas possam ser oferecidas aos alunos e os currículos atualizados**.
+
+
+
+### 6. **História de Usuário: Cadastrar Disciplinas**
+
+Como **Usuário (aluno ou professor)**,
+
+Quero **fazer login no sistema usando minha senha**,
+
+Para que **eu possa acessar as funcionalidades apropriadas de acordo com o meu tipo de usuário**.
