@@ -1,38 +1,33 @@
-@startuml
+@startuml 'Sistema de Matrícula'
 left to right direction
 actor "Aluno" as aluno
 actor "Secretaria" as secretaria
-actor "Sistema de Cobranças" as sistemaCobranca
 actor "Professor" as professor
+
 rectangle "Sistema de matrícula"{
   usecase "Realizar matrícula" as realizarMatricula
   usecase "Cancelar matrícula" as cancelarMatricula
 
-  usecase "Realizar login" as login
   usecase "Cancelar disciplina" as cancelarDisciplina
   usecase "Gerenciar disciplinas" as gerenciarDisciplinas
   usecase "Gerenciar professores" as gerenciarProfessores
   usecase "Gerenciar Alunos" as gerenciarAlunos
   usecase "Gerenciar cursos" as gerenciarCursos
 
-  usecase "Validar Credenciais" as validarCredenciais
   usecase "Notificar Sistema de Cobranças" as notificarCobranca
   usecase "Verificar numero de alunos" as verificarNumeroAlunos
 
   usecase "Consultar alunos" as consultarAlunos
 }
+
 professor -- consultarAlunos
-professor -- login
 
 aluno -- realizarMatricula
 aluno -- cancelarMatricula
-aluno -- login
 
-notificarCobranca -- sistemaCobranca
 realizarMatricula ..> notificarCobranca : "<<include>>"
 cancelarMatricula ..> notificarCobranca : "<<include>>"
 
-login ..> validarCredenciais: "<<include>>"
 gerenciarDisciplinas ..> verificarNumeroAlunos : "<<include>>"
 verificarNumeroAlunos <. cancelarDisciplina : "<<extend>>"
 
