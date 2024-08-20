@@ -6,6 +6,7 @@ O objetivo do projeto é informatizar o sistema de matrículas de uma universida
 
 * José Victor Mendes Dias
 * Lucca Angelo Luchi
+* Livia Bontempo Leite
 
 ## Orientador
 
