@@ -51,7 +51,6 @@ class Turma {
   boolean ativa
   Professor professor
   List<Aluno> alunos
-  Disciplina disciplina
 
   +adicionarAluno(Aluno aluno)
   +removerAluno(Aluno aluno)
@@ -73,12 +72,34 @@ class Aluno {
 
 class Professor {
   String especialidade
-  List<Turma> turmas
 }
 
-' class Secretaria {
-  
-' }
+class Secretaria {
+  List<Usuario> usuarios
+  List<Curso> cursos
+  List<Disciplina> disciplinas
+  List<Curriculo> curriculos
+
+  +cadastrarAluno()
+  +visualizarAlunos()
+  +cadastrarProfessor()
+  +visualizarProfessores()
+  +removerUsuario(String nome)
+  +buscarUsuario(String nome)
+  +cadastrarCurso()
+  +removerCurso(String nome)
+  +visualizarCursos()
+  +buscarCurso(String nome)
+  +cadastrarDisciplina()
+  +removerDisciplina(String nome)
+  +visualizarDisciplinas()
+  +buscarDisciplina(String nome)
+  +gerarCurriculo()
+  +removerCurriculo(int id)
+  +visualizarCurriculos()
+  +buscarCurriculo(int id)
+  -notificarSistemaCobranca()
+ }
 
 Usuario <|-- Aluno
 Usuario <|-- Professor
@@ -88,9 +109,13 @@ Disciplina - TipoDisciplina
 Disciplina -- StatusDisciplina
 
 Curso "1..*" o-- "0..*" Disciplina : contém
-Turma "1..*" o-- "3..60" Aluno : possui
+Turma "1..6" o-- "3..60" Aluno : possui
 Disciplina "1" *-- "0..*" Turma : possui
-Professor "1" *-- "1..*" Turma : é responsável por
+Professor "1" --o "1..*" Turma : é responsável por
 Curriculo "1" o-- "1..*" Turma : contém
+Usuario "0..*" --* "1" Secretaria : gerencia
+Disciplina "0..*" --* "1" Secretaria : gerencia
+Curso "0..*" --* "1" Secretaria : gerencia
+Curriculo "0..*" --* "1" Secretaria : gerencia
 
 @enduml
