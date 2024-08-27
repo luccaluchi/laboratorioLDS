@@ -4,6 +4,7 @@ O objetivo do projeto é informatizar o sistema de matrículas de uma universida
 
 ## Integrantes
 
+* Francisley Domingos Magalhães
 * José Victor Mendes Dias
 * Livia Bontempo Leite
 * Lucca Angelo Luchi
