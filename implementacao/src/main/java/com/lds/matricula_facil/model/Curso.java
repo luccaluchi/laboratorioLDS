@@ -1,9 +1,13 @@
-public class Curso{
+package com.lds.matricula_facil.model;
+
+import java.util.List;
+
+public class Curso {
     private int id;
     private String nome;
     private int creditos;
-    private list <Disciplina> disciplinas;
-    
+    private List<Disciplina> disciplinas;
+
     public int getId() {
         return id;
     }
@@ -34,4 +38,5 @@ public class Curso{
 
     public void setDisciplinas(List<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
+    }
 }

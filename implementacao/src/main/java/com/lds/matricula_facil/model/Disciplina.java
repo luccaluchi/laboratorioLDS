@@ -1,9 +1,16 @@
+package com.lds.matricula_facil.model;
+
+import java.util.List;
+
+import com.lds.matricula_facil.model.enums.StatusDisciplina;
+import com.lds.matricula_facil.model.enums.TipoDisciplina;
+
 public class Disciplina{
    private int id;
    private String nome;
    private TipoDisciplina tipo;
    private StatusDisciplina status;
-   private list<Turma> turmas;
+   private List<Turma> turmas;
     
    public int getId() {
     return id;

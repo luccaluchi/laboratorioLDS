@@ -1,3 +1,4 @@
+package com.lds.matricula_facil.model;
 public abstract class Usuario{
     int id;
     private String nome;
