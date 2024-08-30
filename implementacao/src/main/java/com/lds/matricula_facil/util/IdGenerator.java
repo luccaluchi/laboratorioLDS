@@ -1,6 +1,6 @@
 package com.lds.matricula_facil.util;
 
-public class idGenerator {
+public class IdGenerator {
 
     private static int lastId = 0;
 
@@ -12,5 +12,5 @@ public class idGenerator {
     public static int getLastId() {
         return lastId;
     }
-    
+
 }

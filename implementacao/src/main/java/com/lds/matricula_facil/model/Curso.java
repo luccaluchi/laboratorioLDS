@@ -2,13 +2,18 @@ package com.lds.matricula_facil.model;
 
 import java.util.List;
 
-import com.lds.matricula_facil.util.idGenerator;
+import com.lds.matricula_facil.util.IdGenerator;
 
 public class Curso {
-    private int id = idGenerator.generateId();
+    private int id = IdGenerator.generateId();
     private String nome;
     private int creditos;
     private List<Disciplina> disciplinas;
+
+    public Curso(String nome, int creditos) {
+        this.nome = nome;
+        this.creditos = creditos;
+    }
 
     public int getId() {
         return id;
@@ -40,5 +45,13 @@ public class Curso {
 
     public void setDisciplinas(List<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\tId: ").append(id)
+          .append("\n\tNome: ").append(nome)
+          .append("\n\tCréditos: ").append(creditos);
+        return sb.toString();
     }
 }

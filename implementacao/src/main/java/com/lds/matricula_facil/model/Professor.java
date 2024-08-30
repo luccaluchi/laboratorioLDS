@@ -1,7 +1,5 @@
 package com.lds.matricula_facil.model;
 
-import jakarta.persistence.Entity;
-
 
 public class Professor extends Usuario{
     private String especialidade;
@@ -17,6 +15,11 @@ public class Professor extends Usuario{
     
     public void setEspecialidade(String especialidade) {
         this.especialidade = especialidade;
+    }
+
+    @Override
+    public String toString() {
+        return "Informações do professor:" + "\n\tId: " + getId() + "\n\tNome: " + getNome() + "\n\tEspecialidade" + getEspecialidade() + "\n\tEmail: " + getUsuario();
     }
 
 }

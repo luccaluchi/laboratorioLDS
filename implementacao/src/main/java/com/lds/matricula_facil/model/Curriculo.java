@@ -2,10 +2,10 @@ package com.lds.matricula_facil.model;
 
 import java.util.List;
 
-import com.lds.matricula_facil.util.idGenerator;
+import com.lds.matricula_facil.util.IdGenerator;
 
 public class Curriculo {
-    private int id = idGenerator.generateId();
+    private int id = IdGenerator.generateId();
     private int ano;
     private int semestre;
     private List<Turma> turmas;
@@ -34,5 +34,5 @@ public class Curriculo {
     public void removeTurma(Turma turma) {
         this.turmas.remove(turma);
     }
-    
+
 }

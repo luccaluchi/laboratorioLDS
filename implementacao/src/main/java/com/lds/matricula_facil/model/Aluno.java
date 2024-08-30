@@ -5,4 +5,9 @@ public class Aluno extends Usuario{
         super(nome, email, senha);
     }
 
+    @Override
+    public String toString() {
+        return "Informações do aluno:" + "\n\tId: " + getId() + "\n\tNome: " + getNome() + "\n\tEmail: " + getUsuario();
+    }
+
 }

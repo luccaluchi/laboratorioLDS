@@ -1,13 +1,13 @@
 package com.lds.matricula_facil.model;
 
-import com.lds.matricula_facil.util.idGenerator;
+import com.lds.matricula_facil.util.IdGenerator;
 
 
 
 
 public abstract class Usuario {
 
-    private int id = idGenerator.generateId();
+    private int id = IdGenerator.generateId();
     private String nome;
     private String usuario;
     private String senha;
@@ -45,6 +45,7 @@ public abstract class Usuario {
     public int getId() {
         return id;
     }
+    public abstract String toString();
 
     // metodo p validar senha
 }
