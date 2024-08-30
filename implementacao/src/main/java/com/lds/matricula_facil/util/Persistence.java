@@ -51,7 +51,7 @@ public class Persistence {
     }
     public Usuario getUsuario(String nome) {
         for (Usuario usuario : usuarios) {
-            if (usuario.getNome().equals(nome)) {
+            if (usuario.getNome().equalsIgnoreCase(nome)) {
                 return usuario;
             }
         }
@@ -97,7 +97,7 @@ public class Persistence {
     }
     public Curso getCurso(String nome) {
         for (Curso curso : cursos) {
-            if (curso.getNome().equals(nome)) {
+            if (curso.getNome().equalsIgnoreCase(nome)) {
                 return curso;
             }
         }
@@ -141,7 +141,7 @@ public class Persistence {
 
     //Disciplina
     public void saveDisciplina(Disciplina disciplina) {
-        if (getDisciplinaByNome(disciplina.getNome()) != null) {
+        if (getDisciplina(disciplina.getNome()) != null) {
             System.out.println("Disciplina já cadastrada");
             return;
         }
@@ -151,7 +151,7 @@ public class Persistence {
         return disciplinas;
     }
 
-    public Disciplina getDisciplinaById(int id) {
+    public Disciplina getDisciplina(int id) {
         for (Disciplina disciplina : disciplinas) {
             if (disciplina.getId() == id) {
                 return disciplina;
@@ -160,9 +160,9 @@ public class Persistence {
         return null;
     }
 
-    public Disciplina getDisciplinaByNome(String nome) {
+    public Disciplina getDisciplina(String nome) {
         for (Disciplina disciplina : disciplinas) {
-            if (disciplina.getNome().equals(nome)) {
+            if (disciplina.getNome().equalsIgnoreCase(nome)) {
                 return disciplina;
             }
         }
@@ -188,8 +188,7 @@ public class Persistence {
         // Adicionar 3 disciplinas
         saveDisciplina(new Disciplina("Matemática", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
         saveDisciplina(new Disciplina("Física", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
-        saveDisciplina(new Disciplina("Química", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
-        
+        saveDisciplina(new Disciplina("Química", TipoDisciplina.OBRIGATORIA, Status.ATIVA));       
 
     }
 

@@ -1,5 +1,6 @@
 package com.lds.matricula_facil.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lds.matricula_facil.model.enums.Status;
@@ -11,7 +12,7 @@ public class Disciplina {
     private String nome;
     private TipoDisciplina tipo;
     private Status status;
-    private List<Turma> turmas;
+    private List<Turma> turmas = new ArrayList<>();
 
     public Disciplina(String nome, TipoDisciplina tipo, Status status) {
         this.nome = nome;
@@ -69,12 +70,12 @@ public class Disciplina {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Disciplina:")
-          .append("\tId: ").append(id)
-          .append("\n\tNome: ").append(nome)
+        sb.append("Disciplina: ")
+          .append(nome)
+          .append("\n\tId: ").append(id)
           .append("\n\tTipo: ").append(tipo)
-          .append("\n\tStatus: ").append(status);
+          .append("\n\tStatus: ").append(status)
+          .append("\n\tNúmero de turmas: ").append(turmas.size());
         return sb.toString();
-    }
-    
+    }    
 }

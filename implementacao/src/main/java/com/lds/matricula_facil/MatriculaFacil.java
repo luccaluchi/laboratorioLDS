@@ -9,15 +9,21 @@ import com.lds.matricula_facil.model.Professor;
 import com.lds.matricula_facil.model.enums.Status;
 import com.lds.matricula_facil.model.enums.TipoDisciplina;
 import com.lds.matricula_facil.util.Persistence;
+import com.lds.matricula_facil.util.Utils;
 
 public class MatriculaFacil {
 
-    private Persistence persistence = Persistence.getInstance();
+    private static Persistence persistence = Persistence.getInstance();
+    private static Utils utils = new Utils();
     private Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         System.out.println("Hello, World!");
-
+        // Para teste:
+        // MatriculaFacil matriculaFacil = new MatriculaFacil();
+        // matriculaFacil.visualizarCursos();
+        // matriculaFacil.visualizarDisciplinas();
+        // matriculaFacil.visualizarUsuario();
     }
 
     // Section: Aluno
@@ -34,16 +40,18 @@ public class MatriculaFacil {
         persistence.saveUsuario(new Aluno(nome, email, senha));
     }
 
+    // Try catch não foi uma boa alternativa
     private void visualizarUsuario() {
         String input = scanner.nextLine();
         System.out.println("Digite o id ou nome do usuário: ");
-        try {
+        if (utils.isNumeric(input)) {
             int id = Integer.parseInt(input);
             System.out.println(persistence.getUsuario(id).toString());
-        } catch (NumberFormatException e) {
+        } else {
             System.out.println(persistence.getUsuario(input).toString());
         }
     }
+
     
     // Section: Professor
     private void cadastrarProfessor() {
@@ -61,21 +69,22 @@ public class MatriculaFacil {
         especialidade = scanner.nextLine();
         persistence.saveUsuario(new Professor(nome, email, senha, especialidade));
     }
-
+    
     // Section: Usuario
     private void descadastrarUsuario() {
         String input = scanner.nextLine();
         boolean wasDeleted = false;
 
         System.out.println("Buscar por Id ou nome? /n 1 - Id /n 2 - Nome");
-        System.out.println("Digite o id ou nome do usuário: ");        
+        System.out.println("Digite o id ou nome do usuário: ");
         try {
             int id = Integer.parseInt(input);
-            if (persistence.deleteUsuario(id)) wasDeleted = true;
+            if (persistence.deleteUsuario(id))
+            wasDeleted = true;
         } catch (NumberFormatException e) {
-            if (persistence.deleteUsuario(input)) wasDeleted = true;
-        }
-        finally {
+            if (persistence.deleteUsuario(input))
+            wasDeleted = true;
+        } finally {
             if (wasDeleted) {
                 System.out.println("Registro do usuário deletado com sucesso!");
             } else {
@@ -89,7 +98,7 @@ public class MatriculaFacil {
         String nome = "";
         TipoDisciplina tipo = null;
         Status status = null;
-
+        
         System.out.println("Digite o nome da disciplina: ");
         nome = scanner.nextLine();
         System.out.println("Digite o tipo da disciplina: ");
@@ -100,19 +109,33 @@ public class MatriculaFacil {
         status = Status.getFromValue(scanner.nextInt());
         persistence.saveDisciplina(new Disciplina(nome, tipo, status));
     }
+    
+    private void visualizarDisciplina() {
+        String input = scanner.nextLine();
+        System.out.println("Digite o id ou nome da disciplina: ");
+        if (utils.isNumeric(input)) {
+            System.out.println(persistence.getDisciplina(Integer.parseInt(input)).toString());
+        } else {
+            System.out.println(persistence.getDisciplina(input).toString());
+        }
+    }
 
+    private void visualizarDisciplinas() {
+        persistence.getDisciplinas().forEach(disciplina -> System.out.println(disciplina.toString()));
+    }
+    
     // Section: Curso
     private void cadastrarCurso() {
         String nome = "";
         int creditos = 0;
-
+        
         System.out.println("Digite o nome do curso: ");
         nome = scanner.nextLine();
         System.out.println("Digite a quantidade de créditos do curso: ");
         creditos = scanner.nextInt();
         persistence.saveCurso(new Curso(nome, creditos));
     }
-
+    
     private void visualizarCurso() {
         String input = scanner.nextLine();
         System.out.println("Digite o id ou nome do curso: ");
@@ -125,16 +148,14 @@ public class MatriculaFacil {
     }
 
     private void visualizarCursos() {
-        //programação funcional para imprimir a lista de cursos vindas de persistence.getCursos() curso.toString()
         persistence.getCursos().forEach(curso -> System.out.println(curso.toString()));
-
     }
-
+    
     // Section: Curriculo
     private void gerarCurriculo() {
-
+        
     }
-
+    
     // Section: Turma
 
 }
