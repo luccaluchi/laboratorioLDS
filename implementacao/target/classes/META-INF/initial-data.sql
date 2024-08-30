@@ -1,2 +1,0 @@
--- Arquivo para inserção de dados iniciais no banco de dados.
--- Inserir via comandos SQL.
