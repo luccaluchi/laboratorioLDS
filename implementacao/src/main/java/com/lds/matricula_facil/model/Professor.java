@@ -2,7 +2,7 @@ package com.lds.matricula_facil.model;
 
 import jakarta.persistence.Entity;
 
-@Entity
+
 public class Professor extends Usuario{
     private String especialidade;
 

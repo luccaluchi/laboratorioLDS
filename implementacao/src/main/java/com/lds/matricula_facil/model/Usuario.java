@@ -1,19 +1,13 @@
 package com.lds.matricula_facil.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import com.lds.matricula_facil.util.idGenerator;
 
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
+
+
 public abstract class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id = idGenerator.generateId();
     private String nome;
     private String usuario;
     private String senha;
@@ -46,6 +40,10 @@ public abstract class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public int getId() {
+        return id;
     }
 
     // metodo p validar senha

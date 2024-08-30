@@ -5,5 +5,4 @@ public class Aluno extends Usuario{
         super(nome, email, senha);
     }
 
-
 }

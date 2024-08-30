@@ -2,8 +2,10 @@ package com.lds.matricula_facil.model;
 
 import java.util.List;
 
+import com.lds.matricula_facil.util.idGenerator;
+
 public class Curso {
-    private int id;
+    private int id = idGenerator.generateId();
     private String nome;
     private int creditos;
     private List<Disciplina> disciplinas;
