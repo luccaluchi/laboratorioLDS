@@ -54,7 +54,7 @@ public class MatriculaFacil {
 
     
     // Section: Professor
-    private void cadastrarProfessor() {
+    private void cadastrarProfessor() 
         String nome = "";
         String email = "";
         String senha = "";
