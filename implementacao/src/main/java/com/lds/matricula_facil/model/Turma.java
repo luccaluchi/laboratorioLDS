@@ -2,6 +2,7 @@ package com.lds.matricula_facil.model;
 
 import com.lds.matricula_facil.model.enums.Status;
 import com.lds.matricula_facil.model.enums.TipoDisciplina;
+import com.lds.matricula_facil.model.enums.TipoUsuario;
 import com.lds.matricula_facil.util.IdGenerator;
 import com.lds.matricula_facil.util.Persistence;
 import com.lds.matricula_facil.util.Utils;
@@ -26,6 +27,10 @@ public class Turma {
         this.professor = professor;
     }
     
+    public Turma(Professor professor) {
+        this.professor = professor;
+    }
+
     //TODO: Os alunos podem se matricular em 4 disciplinas como 1ª opção (obrigatórias) e em mais 2 outras alternativas (optativas).
     public boolean matricularAluno(Aluno aluno) {
         if (alunos.contains(aluno)) {
@@ -87,6 +92,13 @@ public class Turma {
 
     private boolean estaCheia() {
         return (alunos.size() < 60) ? false : true;
+    }
+
+    public boolean alunoMatriculado(UsuarioLogado aluno){
+        if(aluno.getTipo() == TipoUsuario.ALUNO){
+            return this.alunos.stream().filter(al -> al.equals(aluno)).findAny().isPresent();
+        }
+        return false;
     }
 
     public int getId() {

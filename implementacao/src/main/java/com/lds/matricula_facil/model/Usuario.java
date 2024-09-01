@@ -1,5 +1,6 @@
 package com.lds.matricula_facil.model;
 
+import com.lds.matricula_facil.model.enums.TipoUsuario;
 import com.lds.matricula_facil.util.IdGenerator;
 
 
@@ -11,15 +12,21 @@ public abstract class Usuario {
     private String nome;
     private String email;
     private String senha;
+    private TipoUsuario tipo;
 
-    public Usuario(String nome, String email, String senha) {
+    public Usuario(String nome, String email, String senha, TipoUsuario tipo) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.tipo = tipo;
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public TipoUsuario getTipo() {
+        return this.tipo;
     }
 
     public void setNome(String nome) {
@@ -45,7 +52,6 @@ public abstract class Usuario {
     public int getId() {
         return id;
     }
-    public abstract String toString();
 
-    // metodo p validar senha
+    public abstract String toString();
 }

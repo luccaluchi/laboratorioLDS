@@ -20,8 +20,8 @@ public class Disciplina {
         this.status = status;
     }
 
-    public Turma abrirNovaTurma(String nome, Professor professor) {
-        Turma turma = new Turma(nome, professor);
+    public Turma abrirNovaTurma(Professor professor) {
+        Turma turma = new Turma(professor);
         turma.setNome(this.nome + "." + turmas.size() + 1);
         turmas.add(turma);
         return turma;

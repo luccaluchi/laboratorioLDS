@@ -2,26 +2,30 @@ package com.lds.matricula_facil.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.lds.matricula_facil.model.Aluno;
 import com.lds.matricula_facil.model.Curriculo;
 import com.lds.matricula_facil.model.Curso;
 import com.lds.matricula_facil.model.Disciplina;
 import com.lds.matricula_facil.model.Professor;
+import com.lds.matricula_facil.model.Secretario;
+import com.lds.matricula_facil.model.Turma;
 import com.lds.matricula_facil.model.Usuario;
+import com.lds.matricula_facil.model.UsuarioLogado;
 import com.lds.matricula_facil.model.enums.Status;
 import com.lds.matricula_facil.model.enums.TipoDisciplina;
+import com.lds.matricula_facil.model.enums.TipoUsuario;
 
 public class Persistence {
     private static Persistence instance = null;
-    public List<Usuario> usuarios = new ArrayList<>();;
-    public List<Curso> cursos = new ArrayList<>();;
-    public List<Curriculo> curriculos = new ArrayList<>();;
-    public List<Disciplina> disciplinas = new ArrayList<>();
+    private List<Usuario> usuarios = new ArrayList<>();
+    private List<Curso> cursos = new ArrayList<>();
+    private List<Curriculo> curriculos = new ArrayList<>();
+    private List<Disciplina> disciplinas = new ArrayList<>();
     private Utils utils = new Utils();
 
-    private Persistence() {
-    }
+    private Persistence() {}
 
     public static Persistence getInstance() {
         if (instance == null) {
@@ -39,6 +43,7 @@ public class Persistence {
         }
         usuarios.add(usuario);
     }
+    
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
@@ -143,16 +148,22 @@ public class Persistence {
         }
     }
 
-    private void addInitialData(){
+    private void addInitialData() {
         // Adicionar 3 alunos
-        saveUsuario(new Aluno("João", "alunoJoao@email.com", "123"));
-        saveUsuario(new Aluno("Maria", "alunoMaria@email.com", "123"));
-        saveUsuario(new Aluno("Ricardo", "alunoRicardo@email.com", "123"));
+        Aluno a1 = new Aluno("João", "alunoJoao@email.com", "123");
+        Aluno a2 = new Aluno("Maria", "alunoMaria@email.com", "123");
+        Aluno a3 = new Aluno("Ricardo", "alunoRicardo@email.com", "123");
+        saveUsuario(a1);
+        saveUsuario(a2);
+        saveUsuario(a3);
 
         // Adicionar 3 professores
-        saveUsuario(new Professor("Patrick", "professorPatrick@email.com", "123", "História"));
-        saveUsuario(new Professor("Pedro", "professorPedro@email.com", "123", "Matemática"));
-        saveUsuario(new Professor("Piter", "professorPiter@email.com", "123", "Ciências"));
+        Professor p1 = new Professor("Patrick", "professorPatrick@email.com", "123", "História");
+        Professor p2 = new Professor("Pedro", "professorPedro@email.com", "123", "Matemática");
+        Professor p3 = new Professor("Piter", "professorPiter@email.com", "123", "Ciências");
+        saveUsuario(p1);
+        saveUsuario(p2);
+        saveUsuario(p3);
 
         // Adicionar 3 cursos
         saveCurso(new Curso("Engenharia de Software", 2000));
@@ -160,10 +171,33 @@ public class Persistence {
         saveCurso(new Curso("Engenharia de Produção", 2500));
 
         // Adicionar 3 disciplinas
-        saveDisciplina(new Disciplina("Matemática", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
-        saveDisciplina(new Disciplina("Física", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
-        saveDisciplina(new Disciplina("Química", TipoDisciplina.OBRIGATORIA, Status.ATIVA));       
+        Disciplina d1 = new Disciplina("Matemática", TipoDisciplina.OBRIGATORIA, Status.ATIVA);
+        Disciplina d2 = new Disciplina("Física", TipoDisciplina.OBRIGATORIA, Status.ATIVA);
+        Disciplina d3 = new Disciplina("Química", TipoDisciplina.OBRIGATORIA, Status.ATIVA);
+        d1.abrirNovaTurma(p1);
+        d2.abrirNovaTurma(p2);
+        d3.abrirNovaTurma(p3);
 
+        d1.getTurmas().stream().filter(turma -> turma.getNome().equals("Matemática.01")).findFirst().get().matricularAluno(a1);
+        d2.getTurmas().stream().filter(turma -> turma.getNome().equals("Física.01")).findFirst().get().matricularAluno(a1);
+
+        saveDisciplina(d1);
+        saveDisciplina(d2);
+        saveDisciplina(d3);
     }
 
+    public Optional<Usuario> getUsuarioByEmailESenha(String email, String senha) {
+        return this.usuarios.stream()
+                .filter(user -> user.getEmail().equals(email) && user.getSenha().equals(senha))
+                .findFirst();
+    }
+
+    public List<Disciplina> getDisciplinasMatriculadas(UsuarioLogado aluno) {
+        return this.disciplinas.stream()
+            .filter(disciplinas -> {
+                List<Turma> turmasAtivas = disciplinas.getTurmas().stream().filter(turma -> turma.getStatus() == Status.ATIVA).toList();
+                return turmasAtivas.stream().filter(turma -> turma.alunoMatriculado(aluno)).findFirst().isPresent();
+            })
+            .toList();
+    }
 }

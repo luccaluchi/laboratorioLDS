@@ -1,11 +1,12 @@
 package com.lds.matricula_facil.model;
 
+import com.lds.matricula_facil.model.enums.TipoUsuario;
 
 public class Professor extends Usuario{
     private String especialidade;
 
     public Professor(String nome, String email, String senha, String especialidade) {
-        super(nome, email, senha);
+        super(nome, email, senha, TipoUsuario.PROFESSOR);
         this.especialidade = especialidade;
     }
    
