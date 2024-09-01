@@ -1,5 +1,6 @@
 package com.lds.matricula_facil.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.lds.matricula_facil.util.IdGenerator;
@@ -8,7 +9,12 @@ public class Curriculo {
     private int id = IdGenerator.generateId();
     private int ano;
     private int semestre;
-    private List<Turma> turmas;
+    private List<Turma> turmas = new ArrayList<>();
+
+    public Curriculo(int ano, int semestre) {
+        this.ano = ano;
+        this.semestre = semestre;
+    }
 
     public int getId() {
         return id;
@@ -33,6 +39,18 @@ public class Curriculo {
     }
     public void removeTurma(Turma turma) {
         this.turmas.remove(turma);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Curriculo: ")
+                .append(ano)
+                .append("/")
+                .append(semestre)
+                .append("\n\tId: ").append(id)
+                .append("\n\tNúmero de turmas: ").append(turmas.size());
+        return sb.toString();
     }
 
 }

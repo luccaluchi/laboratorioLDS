@@ -24,6 +24,7 @@ public class ModuloAluno {
         System.out.println(
                 "Selecione o que deseja fazer: \n1- Realizar matrícula\n2- Cancelar matrícula\n3- Visualizar matrículas\nVisualizar disciplinas\n0- Sair");
         scanner.nextInt();
+        scanner.nextLine(); // Consumindo o \n deixado pelo .nextInt()
         switch (option) {
             case 1:
                 realizarMatricula();

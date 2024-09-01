@@ -17,12 +17,12 @@ public class Disciplina {
     public Disciplina(String nome, TipoDisciplina tipo, Status status) {
         this.nome = nome;
         this.tipo = tipo;
-        this.status = status;
+        this.status = status.ATIVA;
     }
 
-    public Turma abrirNovaTurma(String nome, Professor professor) {
-        Turma turma = new Turma(nome, professor);
-        turma.setNome(this.nome + "." + turmas.size() + 1);
+    public Turma abrirNovaTurma(Professor professor) {
+        String nomeDaTurma = (this.nome + "." + turmas.size() + 1);
+        Turma turma = new Turma(nomeDaTurma, professor);
         turmas.add(turma);
         return turma;
     }
