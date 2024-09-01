@@ -20,6 +20,22 @@ public class Disciplina {
         this.status = status;
     }
 
+    public Turma abrirNovaTurma(String nome, Professor professor) {
+        Turma turma = new Turma(nome, professor);
+        turma.setNome(this.nome + "." + turmas.size() + 1);
+        turmas.add(turma);
+        return turma;
+    }
+
+    public boolean fecharTurma(int id) {
+        Turma turma = getTurma(id);
+        if (turma != null) {
+            turma.setStatus(Status.INATIVA);
+            return true;
+        }
+        return false;
+    }
+
     public int getId() {
         return id;
     }
@@ -60,22 +76,19 @@ public class Disciplina {
         this.turmas = turmas;
     }
 
-    public void encerrarMatriculas() {
-        // fazer!!
+    public Turma getTurma(int id) {
+        return turmas.stream().filter(turma -> turma.getId() == id).findFirst().orElse(null);
     }
 
-    public void cancelarMatriculas() {
-        // fazer!!
-    }
-
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Disciplina: ")
-          .append(nome)
-          .append("\n\tId: ").append(id)
-          .append("\n\tTipo: ").append(tipo)
-          .append("\n\tStatus: ").append(status)
-          .append("\n\tNúmero de turmas: ").append(turmas.size());
+                .append(nome)
+                .append("\n\tId: ").append(id)
+                .append("\n\tTipo: ").append(tipo)
+                .append("\n\tStatus: ").append(status)
+                .append("\n\tNúmero de turmas: ").append(turmas.size());
         return sb.toString();
-    }    
+    }
 }

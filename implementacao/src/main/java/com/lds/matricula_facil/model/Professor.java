@@ -19,7 +19,7 @@ public class Professor extends Usuario{
 
     @Override
     public String toString() {
-        return "Informações do professor:" + "\n\tId: " + getId() + "\n\tNome: " + getNome() + "\n\tEspecialidade" + getEspecialidade() + "\n\tEmail: " + getUsuario();
+        return "Informações do professor:" + "\n\tId: " + getId() + "\n\tNome: " + getNome() + "\n\tEspecialidade" + getEspecialidade() + "\n\tEmail: " + getEmail();
     }
 
 }

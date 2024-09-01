@@ -17,7 +17,8 @@ public class Persistence {
     public List<Usuario> usuarios = new ArrayList<>();;
     public List<Curso> cursos = new ArrayList<>();;
     public List<Curriculo> curriculos = new ArrayList<>();;
-    public List<Disciplina> disciplinas = new ArrayList<>();;
+    public List<Disciplina> disciplinas = new ArrayList<>();
+    private Utils utils = new Utils();
 
     private Persistence() {
     }
@@ -30,9 +31,9 @@ public class Persistence {
         return instance;
     }
 
-    //Usuario
+    //Section: Usuario
     public void saveUsuario(Usuario usuario) {
-        if (getUsuario(usuario.getNome()) != null) {
+        if (getUsuarioByIdOrNome(usuario.getNome()) != null) {
             System.out.println("Usuário já cadastrado");
             return;
         }
@@ -41,25 +42,18 @@ public class Persistence {
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
-    public Usuario getUsuario(int id) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == id) {
-                return usuario;
-            }
+
+    public Usuario getUsuarioByIdOrNome(String idOrNome){
+        if (utils.isNumeric(idOrNome)) {
+            int id = Integer.parseInt(idOrNome);
+            return usuarios.stream().filter(usuario -> usuario.getId() == id).findFirst().orElse(null);
+        } else {
+            return usuarios.stream().filter(usuario -> usuario.getNome().equalsIgnoreCase(idOrNome)).findFirst().orElse(null);
         }
-        return null;
-    }
-    public Usuario getUsuario(String nome) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getNome().equalsIgnoreCase(nome)) {
-                return usuario;
-            }
-        }
-        return null;
     }
 
-    public boolean deleteUsuario(int id) {
-        Usuario usuario = getUsuario(id);
+    public boolean deleteUsuarioByIdOrNomee(String idOrNome) {
+        Usuario usuario = getUsuarioByIdOrNome(idOrNome);
         if (usuario != null) {
             usuarios.remove(usuario);
             return true;
@@ -67,44 +61,33 @@ public class Persistence {
         return false;
     }
 
-    public boolean deleteUsuario(String nome) {
-        Usuario usuario = getUsuario(nome);
-        if (usuario != null) {
-            usuarios.remove(usuario);
-            return true;
-        }
-        return false;
+    public boolean deleteUsuarioByIdOrNome(String idOrNome) {
+        return usuarios.remove(getUsuarioByIdOrNome(idOrNome));
     }
     
-    //Curso
+    //Section: Curso
     public void saveCurso(Curso curso) {
-        if (getCurso(curso.getNome()) != null) {
+        if (getCursoByIdOrNome(curso.getNome()) != null) {
             System.out.println("Curso já cadastrado");
             return;
         }
         cursos.add(curso);
     }
+
     public List<Curso> getCursos() {
         return cursos;
     }
-    public Curso getCurso(int id) {
-        for (Curso curso : cursos) {
-            if (curso.getId() == id) {
-                return curso;
-            }
+
+    public Curso getCursoByIdOrNome(String idOrNome){
+        if (utils.isNumeric(idOrNome)) {
+            int id = Integer.parseInt(idOrNome);
+            return cursos.stream().filter(curso -> curso.getId() == id).findFirst().orElse(null);
+        } else {
+            return cursos.stream().filter(curso -> curso.getNome().equalsIgnoreCase(idOrNome)).findFirst().orElse(null);
         }
-        return null;
-    }
-    public Curso getCurso(String nome) {
-        for (Curso curso : cursos) {
-            if (curso.getNome().equalsIgnoreCase(nome)) {
-                return curso;
-            }
-        }
-        return null;
     }
 
-    //Curriculo
+    // Section: Curriculo
     public void saveCurriculo(Curriculo curriculo) {
         curriculos.add(curriculo);
     }
@@ -138,35 +121,26 @@ public class Persistence {
         return curriculosSemestre;
     }
 
-
-    //Disciplina
+    // Section: Disciplina
     public void saveDisciplina(Disciplina disciplina) {
-        if (getDisciplina(disciplina.getNome()) != null) {
+        if (getDisciplinaByIdOrNome(disciplina.getNome()) != null) {
             System.out.println("Disciplina já cadastrada");
             return;
         }
         disciplinas.add(disciplina);
     }
+
     public List<Disciplina> getDisciplinas() {
         return disciplinas;
     }
 
-    public Disciplina getDisciplina(int id) {
-        for (Disciplina disciplina : disciplinas) {
-            if (disciplina.getId() == id) {
-                return disciplina;
-            }
+    public Disciplina getDisciplinaByIdOrNome(String idOrNome){
+        if (utils.isNumeric(idOrNome)) {
+            int id = Integer.parseInt(idOrNome);
+            return disciplinas.stream().filter(disciplina -> disciplina.getId() == id).findFirst().orElse(null);
+        } else {
+            return disciplinas.stream().filter(disciplina -> disciplina.getNome().equalsIgnoreCase(idOrNome)).findFirst().orElse(null);
         }
-        return null;
-    }
-
-    public Disciplina getDisciplina(String nome) {
-        for (Disciplina disciplina : disciplinas) {
-            if (disciplina.getNome().equalsIgnoreCase(nome)) {
-                return disciplina;
-            }
-        }
-        return null;
     }
 
     private void addInitialData(){

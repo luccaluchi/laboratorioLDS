@@ -48,6 +48,7 @@ public class Curso {
         this.disciplinas = disciplinas;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Curso: ")

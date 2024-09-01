@@ -9,12 +9,12 @@ public abstract class Usuario {
 
     private int id = IdGenerator.generateId();
     private String nome;
-    private String usuario;
+    private String email;
     private String senha;
 
     public Usuario(String nome, String email, String senha) {
         this.nome = nome;
-        this.usuario = email;
+        this.email = email;
         this.senha = senha;
     }
 
@@ -26,12 +26,12 @@ public abstract class Usuario {
         this.nome = nome;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSenha() {
