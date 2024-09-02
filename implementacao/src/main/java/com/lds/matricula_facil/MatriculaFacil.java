@@ -2,6 +2,8 @@ package com.lds.matricula_facil;
 
 import java.util.Scanner;
 
+import com.lds.matricula_facil.model.Usuario;
+import com.lds.matricula_facil.model.enums.TipoUsuario;
 import com.lds.matricula_facil.util.ModuloAluno;
 import com.lds.matricula_facil.util.ModuloProfessor;
 import com.lds.matricula_facil.util.ModuloSecretaria;
@@ -13,19 +15,54 @@ public class MatriculaFacil {
     private static Persistence persistence = Persistence.getInstance();
     private static Utils utils = new Utils();
     private Scanner scanner = new Scanner(System.in);
+    private TipoUsuario userType;
 
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
-        // Para teste:
-        // MatriculaFacil matriculaFacil = new MatriculaFacil();
-        // matriculaFacil.visualizarCursos();
-        // matriculaFacil.visualizarDisciplinas();
-        // matriculaFacil.visualizarUsuario();
-        //ModuloSecretaria moduloSecretaria = new ModuloSecretaria();
-        //ModuloProfessor moduloProfessor = new ModuloProfessor();
-        //ModuloAluno moduloAluno = new ModuloAluno();
-        //moduloSecretaria.cadastrarAluno();
-        
+        MatriculaFacil app = new MatriculaFacil();
+        app.showMainMenu();
     }
 
+    public void showMainMenu() {
+        while (!realizarLogin()) {}
+
+        switch (this.userType) {
+            case PROFESSOR: 
+                acessarModuloProfessor();
+                break;
+            case ALUNO: 
+                acessarModuloAluno();
+                break;
+            case SECRETARIO: 
+                acessarModuloSecretaria();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private boolean realizarLogin() {
+        System.out.println("Digite o email: ");
+        String email = scanner.nextLine();
+        System.out.println("Digite a senha: ");
+        String senha = scanner.nextLine();
+        Usuario user = (utils.realizarLogin(email, senha));
+        if (user == null) {
+            System.out.println("Usuário não encontrado");
+            return false;
+        }
+        this.userType = user.getTipo();
+        return true;
+    }
+
+    private void acessarModuloProfessor() {
+        ModuloProfessor module = new ModuloProfessor();
+    }
+
+    private void acessarModuloSecretaria() {
+        ModuloSecretaria module = new ModuloSecretaria();
+    }
+
+    private void acessarModuloAluno() {
+        ModuloAluno module = new ModuloAluno();
+    }
 }

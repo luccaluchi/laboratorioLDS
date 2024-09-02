@@ -19,10 +19,8 @@ public class ModuloAluno {
 
     // Exemplo de construtor
     public ModuloAluno() {
-        System.out.println("Realize o login para acessar o sistema");
-        realizarLogin();
         System.out.println(
-                "Selecione o que deseja fazer: \n1- Realizar matrícula\n2- Cancelar matrícula\n3- Visualizar matrículas\nVisualizar disciplinas\n0- Sair");
+                "Selecione o que deseja fazer: \n1- Realizar matrícula\n2- Cancelar matrícula\n3- Visualizar matrículas\n4- Visualizar disciplinas\n0- Sair");
         scanner.nextInt();
         scanner.nextLine(); // Consumindo o \n deixado pelo .nextInt()
         switch (option) {
@@ -44,18 +42,6 @@ public class ModuloAluno {
                 break;
         }
 
-    }
-
-    public void realizarLogin() {
-        System.out.println("Digite o email do aluno: ");
-        String email = scanner.nextLine();
-        System.out.println("Digite a senha do aluno: ");
-        String senha = scanner.nextLine();
-        aluno = ((Aluno) utils.realizarLogin(email, senha));
-        if (aluno == null) {
-            System.out.println("Usuário não encontrado");
-            return;
-        }
     }
 
     public boolean realizarMatricula() {
@@ -105,12 +91,21 @@ public class ModuloAluno {
 
     public void visualizarMatriculas() {
         System.out.println("Turmas matriculadas: ");
+        if(aluno.turmasMatriculado().isEmpty()) {
+            System.out.println("Nenhuma turma encontrada");
+            return;
+        }
         aluno.turmasMatriculado().forEach(turma -> {
             System.out.println(turma.toString());
         });
     }
 
     public void visualizarDisciplinas() {
+        if(utils.getDisciplinasAtivas().isEmpty()) {
+            System.out.println("Nenhuma disciplina encontrada");
+            return;
+        }
+
         utils.getDisciplinasAtivas().forEach(disciplina -> {
             System.out.println(disciplina.toString());
         });
