@@ -5,8 +5,6 @@ import com.lds.matricula_facil.model.enums.Status;
 
 import java.util.Scanner;
 
-import com.lds.matricula_facil.model.Turma;
-
 public class ModuloProfessor {
     Scanner scanner = new Scanner(System.in);
     int choice;
@@ -19,6 +17,22 @@ public class ModuloProfessor {
             System.out.println("Opção invalida!");
 
         } else {
+            visualizarAlunosTurma(null);
+        }
+    }
+
+    public void visualizarAlunosTurma(Professor professor) {
+        {
+            persistence.disciplinas.stream().filter(disciplina -> disciplina.getStatus() == Status.ATIVA)
+                    .forEach(disciplina -> {
+                        disciplina.getTurmas().stream().filter(turma -> turma.getProfessor().equals(professor))
+                                .forEach(turma -> {
+                                    System.out.println("Turma: " + turma.getNome());
+                                    turma.getAlunos().forEach(aluno -> {
+                                        System.out.println("Aluno: " + aluno.getNome());
+                                    });
+                                });
+                    });
         }
     }
 }
