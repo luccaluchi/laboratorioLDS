@@ -9,6 +9,7 @@ import com.lds.matricula_facil.model.Curriculo;
 import com.lds.matricula_facil.model.Curso;
 import com.lds.matricula_facil.model.Disciplina;
 import com.lds.matricula_facil.model.Professor;
+import com.lds.matricula_facil.model.Secretario;
 import com.lds.matricula_facil.model.Usuario;
 import com.lds.matricula_facil.model.enums.Status;
 import com.lds.matricula_facil.model.enums.TipoDisciplina;
@@ -245,6 +246,8 @@ public class Persistence {
       // Section: Dados iniciais //
      /////////////////////////////
     private void addInitialData() {
+        saveUsuario(new Secretario("Secretaria", "admin", "admin"));
+        
         // Adicionar 3 alunos
         saveUsuario(new Aluno("João", "alunoJoao@email.com", "123"));
         saveUsuario(new Aluno("Maria", "alunoMaria@email.com", "123"));

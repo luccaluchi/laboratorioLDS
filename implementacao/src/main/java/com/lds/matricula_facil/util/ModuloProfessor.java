@@ -9,25 +9,17 @@ import java.util.Scanner;
 
 import com.lds.matricula_facil.model.Turma;
 
-public class ModuloProfessor{
-    Scanner  scanner = new Scanner(System.in);
+public class ModuloProfessor {
+    Scanner scanner = new Scanner(System.in);
     int choice;
 
-    public ModuloProfessor(){
+    public ModuloProfessor() {
         System.out.println("Aperte 1 para visualizar alunos:");
         scanner.nextInt();
-        if (choice != 1 ){
+        if (choice != 1) {
             System.out.println("Opção invalida!");
 
-        }else {
-            visualizarAluno();
+        } else {
         }
     }
-
-
-    public void visualizarAluno() {
-        Turma.getAlunos().forEach(aluno -> {
-            System.out.println(aluno.toString());
-             });
-        }
-    }
+}

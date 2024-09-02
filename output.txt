@@ -1,3 +1,164 @@
+Utils.java
+package com.lds.matricula_facil.util;
+
+import com.lds.matricula_facil.model.Usuario;
+import com.lds.matricula_facil.model.enums.Status;
+import com.lds.matricula_facil.model.Disciplina;
+import java.util.List;
+import java.util.stream.Collectors; // Add this import statement
+
+public class Utils {
+
+    public boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
+
+    public Usuario realizarLogin(String email, String senha) {
+        return Persistence.getInstance().getUsuarios().stream()
+        .filter(usuario -> 
+        usuario.getEmail().equals(email) && usuario.getSenha().equals(senha))
+        .findFirst()
+        .orElse(null);
+    }
+
+    public List<Disciplina> getDisciplinasAtivas() {
+        return Persistence.getInstance().getDisciplinas().stream()
+        .filter(disciplina -> disciplina.getStatus().equals(Status.ATIVA))
+        .collect(Collectors.toList());
+    }
+
+}
+
+======
+ModuloAluno.java
+package com.lds.matricula_facil.util;
+
+import com.lds.matricula_facil.model.Aluno;
+import com.lds.matricula_facil.model.Disciplina;
+import com.lds.matricula_facil.model.Turma;
+import com.lds.matricula_facil.model.enums.Status;
+
+import java.util.Scanner;
+
+public class ModuloAluno {
+    // Atributos, construtores e métodos da classe aqui
+    Scanner scanner = new Scanner(System.in);
+    Persistence persistence = Persistence.getInstance();
+    Utils utils = new Utils();
+
+    Aluno aluno = null;
+
+    int option = 0;
+
+    // Exemplo de construtor
+    public ModuloAluno() {
+        System.out.println("Realize o login para acessar o sistema");
+        realizarLogin();
+        System.out.println(
+                "Selecione o que deseja fazer: \n1- Realizar matrícula\n2- Cancelar matrícula\n3- Visualizar matrículas\nVisualizar disciplinas\n0- Sair");
+        scanner.nextInt();
+        scanner.nextLine(); // Consumindo o \n deixado pelo .nextInt()
+        switch (option) {
+            case 1:
+                realizarMatricula();
+                break;
+            case 2:
+                cancelarMatricula();
+                break;
+            case 3:
+                visualizarMatriculas();
+                break;
+            case 4:
+                visualizarDisciplinas();
+                break;
+            case 0:
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void realizarLogin() {
+        System.out.println("Digite o email do aluno: ");
+        String email = scanner.nextLine();
+        System.out.println("Digite a senha do aluno: ");
+        String senha = scanner.nextLine();
+        aluno = ((Aluno) utils.realizarLogin(email, senha));
+        if (aluno == null) {
+            System.out.println("Usuário não encontrado");
+            return;
+        }
+    }
+
+    public boolean realizarMatricula() {
+        System.out.println("Digite o nome ou id da disciplina: ");
+        String identificacaoDisciplina = scanner.nextLine();
+        Disciplina disciplina = persistence.getDisciplinaByIdOrNome(identificacaoDisciplina);
+        if (disciplina == null) {
+            System.out.println("Disciplina não encontrada");
+            return false;
+        }
+        if (disciplina.getStatus() != Status.ATIVA) {
+            System.out.println("A disciplina deve estar ativa para realizar a matrícula");
+            return false;
+        }
+        for (Turma turma : disciplina.getTurmas()) {
+            if (turma.matricularAluno(aluno)) {
+                System.out.println("Matrícula realizada com sucesso na turma " + turma.getNome() + " da disciplina "
+                        + disciplina.getNome());
+                return true;
+            } else {
+                System.out.println("Não foi possível realizar a matrícula: ");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean cancelarMatricula() {
+        System.out.println("Digite o nome ou id da disciplina: ");
+        String identificacaoDisciplina = scanner.nextLine();
+        Disciplina disciplina = persistence.getDisciplinaByIdOrNome(identificacaoDisciplina);
+        if (disciplina == null) {
+            System.out.println("Disciplina não encontrada");
+            return false;
+        }
+        for (Turma turma : disciplina.getTurmas()) {
+            if (turma.cancelarMatricularAluno(aluno)) {
+                System.out.println("Matrícula cancelada com sucesso na turma " + turma.getNome() + " da disciplina " + disciplina.getNome());
+                return true;
+            } else {
+                System.out.println("Não foi possível cancelar a matrícula: ");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void visualizarMatriculas() {
+        System.out.println("Turmas matriculadas: ");
+        aluno.turmasMatriculado().forEach(turma -> {
+            System.out.println(turma.toString());
+        });
+    }
+
+    public void visualizarDisciplinas() {
+        utils.getDisciplinasAtivas().forEach(disciplina -> {
+            System.out.println(disciplina.toString());
+        });
+    }
+}
+======
+ModuloProfessor.java
+
+======
+ModuloSecretaria.java
 package com.lds.matricula_facil.util;
 
 import com.lds.matricula_facil.model.Aluno;
@@ -17,109 +178,8 @@ public class ModuloSecretaria {
     private static Utils utils = new Utils();
     private Scanner scanner = new Scanner(System.in);
 
-    public ModuloSecretaria() { int option = -1;
+    public ModuloSecretaria() {
 
-        while (option != 0) {
-            System.out.println("\n=== Módulo Secretaria ===");
-            System.out.println("Selecione uma opção:");
-            System.out.println("1 - Cadastrar Aluno");
-            System.out.println("2 - Atualizar Aluno");
-            System.out.println("3 - Visualizar Alunos");
-            System.out.println("4 - Cadastrar Professor");
-            System.out.println("5 - Atualizar Professor");
-            System.out.println("6 - Listar Professores");
-            System.out.println("7 - Cadastrar Disciplina");
-            System.out.println("8 - Atualizar Disciplina");
-            System.out.println("9 - Visualizar Disciplinas");
-            System.out.println("10 - Cadastrar Curso");
-            System.out.println("11 - Atualizar Curso");
-            System.out.println("12 - Visualizar Cursos");
-            System.out.println("13 - Gerar Currículo");
-            System.out.println("14 - Visualizar Currículos");
-            System.out.println("15 - Visualizar Turmas de um Currículo");
-            System.out.println("16 - Abrir Turma");
-            System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
-
-            try {
-                option = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida, por favor, insira um número.");
-                continue;
-            }
-
-            switch (option) {
-                // Opções de Aluno
-                case 1:
-                    cadastrarAluno();
-                    break;
-                case 2:
-                    updateAluno();
-                    break;
-                case 3:
-                    visualizarAlunos();
-                    break;
-
-                // Opções de Professor
-                case 4:
-                    cadastrarProfessor();
-                    break;
-                case 5:
-                    updateProfessor();
-                    break;
-                case 6:
-                    listarProfessores();
-                    break;
-
-                // Opções de Disciplina
-                case 7:
-                    cadastrarDisciplina();
-                    break;
-                case 8:
-                    updateDisciplina();
-                    break;
-                case 9:
-                    visualizarDisciplinas();
-                    break;
-
-                // Opções de Curso
-                case 10:
-                    cadastrarCurso();
-                    break;
-                case 11:
-                    updateCurso();
-                    break;
-                case 12:
-                    visualizarCursos();
-                    break;
-
-                // Opções de Currículo
-                case 13:
-                    gerarCurriculo();
-                    break;
-                case 14:
-                    visualizarCurriculos();
-                    break;
-                case 15:
-                    visualizarTurmasDeUmCurriculo();
-                    break;
-
-                // Opção de Abrir Turma
-                case 16:
-                    abrirTurma();
-                    break;
-
-                // Sair
-                case 0:
-                    System.out.println("Saindo do Módulo Secretaria...");
-                    break;
-
-                // Opção inválida
-                default:
-                    System.out.println("Opção inválida, por favor, tente novamente.");
-                    break;
-            }
-        }
     }
 
     ////////////////////
@@ -128,7 +188,7 @@ public class ModuloSecretaria {
     /**
      * Realiza o cadastro de um aluno.
      */
-    public  void cadastrarAluno() {
+    public void cadastrarAluno() {
         String nome = "";
         String email = "";
         String senha = "";
@@ -516,3 +576,307 @@ public class ModuloSecretaria {
     }
 
 }
+======
+Persistence.java
+package com.lds.matricula_facil.util;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.lds.matricula_facil.model.Aluno;
+import com.lds.matricula_facil.model.Curriculo;
+import com.lds.matricula_facil.model.Curso;
+import com.lds.matricula_facil.model.Disciplina;
+import com.lds.matricula_facil.model.Professor;
+import com.lds.matricula_facil.model.Usuario;
+import com.lds.matricula_facil.model.enums.Status;
+import com.lds.matricula_facil.model.enums.TipoDisciplina;
+
+public class Persistence {
+    private static Persistence instance = null;
+    public List<Usuario> usuarios = new ArrayList<>();;
+    public List<Curso> cursos = new ArrayList<>();;
+    public List<Curriculo> curriculos = new ArrayList<>();;
+    public List<Disciplina> disciplinas = new ArrayList<>();
+    private Utils utils = new Utils();
+
+    private Persistence() {
+    }
+
+    public static Persistence getInstance() {
+        if (instance == null) {
+            instance = new Persistence();
+            instance.addInitialData();
+        }
+        return instance;
+    }
+      //////////////////////
+     // Section: Usuario //
+    //////////////////////
+
+    public void saveUsuario(Usuario usuario) {
+        if (getUsuarioByIdOrNome(usuario.getNome()) != null) {
+            System.out.println("Usuário já cadastrado");
+            return;
+        }
+        usuarios.add(usuario);
+    }
+
+    public Usuario getUsuario(Usuario usuario) {
+        return usuarios.stream().filter(user -> user.getId() == usuario.getId()).findFirst().orElse(null);
+    }
+        
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public Usuario getUsuarioByIdOrNome(String idOrNome) {
+        if (utils.isNumeric(idOrNome)) {
+            int id = Integer.parseInt(idOrNome);
+            return usuarios.stream().filter(usuario -> usuario.getId() == id).findFirst().orElse(null);
+        } else {
+            return usuarios.stream().filter(usuario -> usuario.getNome().equalsIgnoreCase(idOrNome)).findFirst()
+                    .orElse(null);
+        }
+    }
+
+    public boolean deleteUsuarioByIdOrNomee(String idOrNome) {
+        Usuario usuario = getUsuarioByIdOrNome(idOrNome);
+        if (usuario != null) {
+            usuarios.remove(usuario);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteUsuarioByIdOrNome(String idOrNome) {
+        return usuarios.remove(getUsuarioByIdOrNome(idOrNome));
+    }
+
+      ////////////////////
+     // Section: Aluno //
+    ////////////////////
+
+    public boolean updateAluno(Aluno aluno) {
+        Aluno alunoToUpdate = (Aluno) getUsuario(aluno);
+        if (alunoToUpdate != null) {
+            alunoToUpdate.setNome(aluno.getNome());
+            alunoToUpdate.setEmail(aluno.getEmail());
+            alunoToUpdate.setSenha(aluno.getSenha());
+            return true;
+        }
+        return false;
+    }
+
+    public List<Aluno> getAlunos() {
+        return usuarios.stream()
+                .filter(usuario -> usuario instanceof Aluno)
+                .map(usuario -> (Aluno) usuario)
+                .collect(Collectors.toList());
+    }
+
+      ////////////////////////
+     // Section: Professor //
+    ////////////////////////
+
+    public List<Professor> getProfessores() {
+        return usuarios.stream()
+                .filter(usuario -> usuario instanceof Professor)
+                .map(usuario -> (Professor) usuario)
+                .collect(Collectors.toList());
+    }
+
+    public boolean updateProfessor(Professor professor){
+        Professor professorToUpdate = (Professor) getUsuario(professor);
+        if (professorToUpdate != null ){
+            professorToUpdate.setNome(professor.getNome());
+            professorToUpdate.setEmail(professor.getEmail());
+            professorToUpdate.setSenha(professor.getSenha());
+            professorToUpdate.setEspecialidade(professor.getEspecialidade());;
+            return  true;
+        }
+        return false;
+    }
+
+    
+      ////////////////////
+     // Section: Curso //
+    ////////////////////
+     public boolean saveCurso(Curso curso) {
+        if (getCursoByIdOrNome(curso.getNome()) != null) {
+            System.out.println("Curso já cadastrado");
+            return false;
+        }
+        cursos.add(curso);
+        return true;
+    }
+
+    public List<Curso> getCursos() {
+        return cursos;
+    }
+
+    public Curso getCursoByIdOrNome(String idOrNome) {
+        if (utils.isNumeric(idOrNome)) {
+            int id = Integer.parseInt(idOrNome);
+            return cursos.stream().filter(curso -> curso.getId() == id).findFirst().orElse(null);
+        } else {
+            return cursos.stream().filter(curso -> curso.getNome().equalsIgnoreCase(idOrNome)).findFirst().orElse(null);
+        }
+    }
+
+    public boolean deleteCurso(String idOrNome) {
+        Curso curso = getCursoByIdOrNome(idOrNome);
+        if (curso != null) {
+            cursos.remove(curso);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateCurso(Curso curso){
+        Curso cursoToUpdate = getCursoByIdOrNome(Integer.toString(curso.getId()));
+        if (cursoToUpdate != null){
+            cursoToUpdate.setNome(curso.getNome());
+            cursoToUpdate.setCreditos(curso.getCreditos());
+            return true;
+        }
+        return false;
+    }
+      ////////////////////////
+     // Section: Curriculo //
+    ////////////////////////
+    public void saveCurriculo(Curriculo curriculo) {
+        curriculos.add(curriculo);
+    }
+
+    public List<Curriculo> getCurriculos() {
+        return curriculos;
+    }
+
+    public Curriculo getCurriculoById(int id) {
+        for (Curriculo curriculo : curriculos) {
+            if (curriculo.getId() == id) {
+                return curriculo;
+            }
+        }
+        return null;
+    }
+
+    public List<Curriculo> getCurriculosByAno(int ano) {
+        List<Curriculo> curriculosAno = new ArrayList<>();
+        for (Curriculo curriculo : curriculos) {
+            if (curriculo.getAno() == ano) {
+                curriculosAno.add(curriculo);
+            }
+        }
+        return curriculosAno;
+    }
+
+    public List<Curriculo> getCurriculosBySemestre(int ano, int semestre) {
+        List<Curriculo> curriculosSemestre = new ArrayList<>();
+        ;
+        for (Curriculo curriculo : curriculos) {
+            if (curriculo.getAno() == ano && curriculo.getSemestre() == semestre) {
+                curriculosSemestre.add(curriculo);
+            }
+        }
+        return curriculosSemestre;
+    }
+
+      /////////////////////////
+     // Section: Disciplina //
+    /////////////////////////
+    public void saveDisciplina(Disciplina disciplina) {
+        if (getDisciplinaByIdOrNome(disciplina.getNome()) != null) {
+            System.out.println("Disciplina já cadastrada");
+            return;
+        }
+        disciplinas.add(disciplina);
+    }
+
+    public List<Disciplina> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public Disciplina getDisciplinaByIdOrNome(String idOrNome) {
+        if (utils.isNumeric(idOrNome)) {
+            int id = Integer.parseInt(idOrNome);
+            return disciplinas.stream().filter(disciplina -> disciplina.getId() == id).findFirst().orElse(null);
+        } else {
+            return disciplinas.stream().filter(disciplina -> disciplina.getNome().equalsIgnoreCase(idOrNome))
+                    .findFirst().orElse(null);
+        }
+    }
+
+    public boolean updateDisciplina(Disciplina disciplina){
+        Disciplina disciplinaToUpdate = getDisciplinaByIdOrNome(Integer.toString(disciplina.getId()));
+        if (disciplinaToUpdate != null){
+            disciplinaToUpdate.setNome(disciplina.getNome());
+            disciplinaToUpdate.setStatus(disciplina.getStatus());
+            disciplinaToUpdate.setTipo(disciplina.getTipo());
+            return true;
+        }
+        else return false;
+    }
+
+       /////////////////////////////
+      // Section: Dados iniciais //
+     /////////////////////////////
+    private void addInitialData() {
+        // Adicionar 3 alunos
+        saveUsuario(new Aluno("João", "alunoJoao@email.com", "123"));
+        saveUsuario(new Aluno("Maria", "alunoMaria@email.com", "123"));
+        saveUsuario(new Aluno("Ricardo", "alunoRicardo@email.com", "123"));
+
+        // Adicionar 3 professores
+        saveUsuario(new Professor("Patrick", "professorPatrick@email.com", "123", "História"));
+        saveUsuario(new Professor("Pedro", "professorPedro@email.com", "123", "Matemática"));
+        saveUsuario(new Professor("Piter", "professorPiter@email.com", "123", "Ciências"));
+
+        // Adicionar 3 cursos
+        saveCurso(new Curso("Engenharia de Software", 2000));
+        saveCurso(new Curso("Engenharia de Mecânica", 2500));
+        saveCurso(new Curso("Engenharia de Produção", 2500));
+
+        // Adicionar 3 disciplinas
+        saveDisciplina(new Disciplina("Matemática", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
+        saveDisciplina(new Disciplina("Física", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
+        saveDisciplina(new Disciplina("Química", TipoDisciplina.OBRIGATORIA, Status.ATIVA));
+
+    }
+
+}
+
+======
+Collectors.java
+package com.lds.matricula_facil.util;
+
+public class Collectors {
+
+}
+
+======
+IdGenerator.java
+package com.lds.matricula_facil.util;
+
+public class IdGenerator {
+
+    private static int lastId = 0;
+
+    public static int generateId() {
+        lastId++;
+        return lastId;
+    }
+
+    public static int getLastId() {
+        return lastId;
+    }
+
+}
+
+======
+Menu.java
+
+======

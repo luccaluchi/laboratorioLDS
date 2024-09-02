@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Directory to start the search
+START_DIR="implementacao/src/main/java/com/lds/matricula_facil/util"
+
+# Output file
+OUTPUT_FILE="output.txt"
+
+# Clear the output file if it exists
+> "$OUTPUT_FILE"
+
+# Recursively find all .java files and process them
+find "$START_DIR" -type f -name "*.java" | while read -r FILE; do
+    # Get the relative path
+    REL_PATH=$(realpath --relative-to="$START_DIR" "$FILE")
+    
+    # Append the file path
+    echo "$REL_PATH" >> "$OUTPUT_FILE"
+    
+    # Append the file content
+    cat "$FILE" >> "$OUTPUT_FILE"
+    
+    # Append the separator
+    echo -e "\n======" >> "$OUTPUT_FILE"
+done
+
+echo "Done! The output has been saved to $OUTPUT_FILE"
