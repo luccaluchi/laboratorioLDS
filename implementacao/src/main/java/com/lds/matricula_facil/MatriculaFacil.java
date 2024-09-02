@@ -2,7 +2,9 @@ package com.lds.matricula_facil;
 
 import java.util.Scanner;
 
-
+import com.lds.matricula_facil.util.ModuloAluno;
+import com.lds.matricula_facil.util.ModuloProfessor;
+import com.lds.matricula_facil.util.ModuloSecretaria;
 import com.lds.matricula_facil.util.Persistence;
 import com.lds.matricula_facil.util.Utils;
 
@@ -19,6 +21,11 @@ public class MatriculaFacil {
         // matriculaFacil.visualizarCursos();
         // matriculaFacil.visualizarDisciplinas();
         // matriculaFacil.visualizarUsuario();
+        //ModuloSecretaria moduloSecretaria = new ModuloSecretaria();
+        //ModuloProfessor moduloProfessor = new ModuloProfessor();
+        //ModuloAluno moduloAluno = new ModuloAluno();
+        //moduloSecretaria.cadastrarAluno();
+        
     }
 
 }

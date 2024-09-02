@@ -47,5 +47,4 @@ public abstract class Usuario {
     }
     public abstract String toString();
 
-    // metodo p validar senha
 }

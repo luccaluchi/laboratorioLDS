@@ -27,7 +27,7 @@ public class ModuloSecretaria {
     /**
      * Realiza o cadastro de um aluno.
      */
-    public void cadastrarAluno() {
+    public  void cadastrarAluno() {
         String nome = "";
         String email = "";
         String senha = "";
