@@ -495,7 +495,7 @@ public class ModuloSecretaria {
             for (Disciplina disciplina : curso.getDisciplinas().stream().filter(disciplina -> disciplina.getStatus() == Status.ATIVA).toArray(Disciplina[]::new)) {
                 for (Turma turma : disciplina.getTurmas().stream().filter(turma -> turma.getStatus() == Status.ATIVA).toArray(Turma[]::new)){
                     curriculo.addTurma(turma);
-                    turma.setStatus(Status.ENCERRADA);
+                    turma.setStatus(Status.ENCERRADA);                    
                 }
             }   
         }

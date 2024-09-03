@@ -13,4 +13,9 @@ public class Secretario extends Usuario{
         return this.getNome()+"-"+this.getEmail();
     }
 
+    public static Secretario fromString(String string) {
+        String[] strings = string.split(",");
+        return new Secretario(strings[1], strings[2], strings[3]);
+    }
+
 }

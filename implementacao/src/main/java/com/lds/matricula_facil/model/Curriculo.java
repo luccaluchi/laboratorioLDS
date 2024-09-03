@@ -53,4 +53,9 @@ public class Curriculo {
         return sb.toString();
     }
 
+    public Curriculo fromString(String string) {
+        String[] strings = string.split(",");
+        return new Curriculo(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
+    }
+
 }

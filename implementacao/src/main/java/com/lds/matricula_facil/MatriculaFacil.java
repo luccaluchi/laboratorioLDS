@@ -2,6 +2,7 @@ package com.lds.matricula_facil;
 
 import java.util.Scanner;
 
+import com.lds.matricula_facil.model.Aluno;
 import com.lds.matricula_facil.model.Usuario;
 import com.lds.matricula_facil.model.enums.TipoUsuario;
 import com.lds.matricula_facil.util.ModuloAluno;
@@ -16,6 +17,7 @@ public class MatriculaFacil {
     private static Utils utils = new Utils();
     private Scanner scanner = new Scanner(System.in);
     private TipoUsuario userType;
+    private Usuario user;
 
     public static void main(String[] args) {
         MatriculaFacil app = new MatriculaFacil();
@@ -51,6 +53,7 @@ public class MatriculaFacil {
             return false;
         }
         this.userType = user.getTipo();
+        this.user = user;
         return true;
     }
 
@@ -63,6 +66,6 @@ public class MatriculaFacil {
     }
 
     private void acessarModuloAluno() {
-        ModuloAluno module = new ModuloAluno();
+        ModuloAluno module = new ModuloAluno((Aluno) this.user);
     }
 }

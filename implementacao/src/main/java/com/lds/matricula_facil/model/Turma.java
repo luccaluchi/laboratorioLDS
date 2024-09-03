@@ -132,6 +132,11 @@ public class Turma {
                 .append("\n\tNúmero de alunos: ").append(alunos.size());
         return sb.toString();
     }
+
+    public Turma fromString(String string) {
+        String[] strings = string.split(",");
+        return new Turma(strings[1],((Professor) persistence.getUsuarioByIdOrNome(strings[2])));
+    }
     
 }
 

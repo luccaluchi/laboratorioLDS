@@ -27,4 +27,9 @@ public class Aluno extends Usuario{
         return "Informações do aluno:" + "\n\tId: " + getId() + "\n\tNome: " + getNome() + "\n\tEmail: " + getEmail();
     }
 
+    public static Aluno fromString(String string) {
+        String[] strings = string.split(",");
+        return new Aluno(strings[1], strings[2], strings[3]);
+    }
+
 }

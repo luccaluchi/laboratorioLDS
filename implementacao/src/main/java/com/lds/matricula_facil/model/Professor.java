@@ -24,4 +24,8 @@ public class Professor extends Usuario{
         return "Informações do professor:" + "\n\tId: " + getId() + "\n\tNome: " + getNome() + "\n\tEspecialidade" + getEspecialidade() + "\n\tEmail: " + getEmail();
     }
 
+    public static Professor fromString(String string) {
+        String[] strings = string.split(",");
+        return new Professor(strings[1], strings[2], strings[3], strings[4]);
+    }
 }

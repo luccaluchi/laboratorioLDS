@@ -91,4 +91,9 @@ public class Disciplina {
                 .append("\n\tNúmero de turmas: ").append(turmas.size());
         return sb.toString();
     }
+
+    public Disciplina fromString(String string) {
+        String[] strings = string.split(",");
+        return new Disciplina(strings[1], TipoDisciplina.valueOf(strings[2]), Status.valueOf(strings[3]));
+    }
 }

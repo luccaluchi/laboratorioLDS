@@ -58,4 +58,9 @@ public class Curso {
                 .append("\n\tNúmero de disciplinas: ").append(disciplinas.size());
         return sb.toString();
     }
+
+    public Curso fromString(String string) {
+        String[] strings = string.split(",");
+        return new Curso(strings[1], Integer.parseInt(strings[2]));
+    }
 }

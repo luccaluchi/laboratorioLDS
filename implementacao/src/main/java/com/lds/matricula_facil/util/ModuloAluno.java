@@ -18,28 +18,32 @@ public class ModuloAluno {
     int option = 0;
 
     // Exemplo de construtor
-    public ModuloAluno() {
-        System.out.println(
-                "Selecione o que deseja fazer: \n1- Realizar matrícula\n2- Cancelar matrícula\n3- Visualizar matrículas\n4- Visualizar disciplinas\n0- Sair");
-        scanner.nextInt();
-        scanner.nextLine(); // Consumindo o \n deixado pelo .nextInt()
-        switch (option) {
-            case 1:
-                realizarMatricula();
-                break;
-            case 2:
-                cancelarMatricula();
-                break;
-            case 3:
-                visualizarMatriculas();
-                break;
-            case 4:
-                visualizarDisciplinas();
-                break;
-            case 0:
-                break;
-            default:
-                break;
+    public ModuloAluno(Aluno aluno) {
+        this.aluno = aluno;
+        while (true) {
+            System.out.println(
+                    "Selecione o que deseja fazer: \n1- Realizar matrícula\n2- Cancelar matrícula\n3- Visualizar matrículas\n4- Visualizar disciplinas\n0- Sair");
+            option = scanner.nextInt();
+            scanner.nextLine(); // Consumindo o \n deixado pelo .nextInt()
+            switch (option) {
+                case 1:
+                    realizarMatricula();
+                    break;
+                case 2:
+                    cancelarMatricula();
+                    break;                 
+                case 3:
+                    visualizarMatriculas();
+                    break;
+                case 4:
+                    visualizarDisciplinas();
+                    break;
+                // case 0:
+                //     break;
+                default:
+                System.out.println("Opção inválida");
+                    break;
+            }
         }
 
     }
@@ -79,7 +83,8 @@ public class ModuloAluno {
         }
         for (Turma turma : disciplina.getTurmas()) {
             if (turma.cancelarMatricularAluno(aluno)) {
-                System.out.println("Matrícula cancelada com sucesso na turma " + turma.getNome() + " da disciplina " + disciplina.getNome());
+                System.out.println("Matrícula cancelada com sucesso na turma " + turma.getNome() + " da disciplina "
+                        + disciplina.getNome());
                 return true;
             } else {
                 System.out.println("Não foi possível cancelar a matrícula: ");
@@ -91,7 +96,7 @@ public class ModuloAluno {
 
     public void visualizarMatriculas() {
         System.out.println("Turmas matriculadas: ");
-        if(aluno.turmasMatriculado().isEmpty()) {
+        if (aluno.turmasMatriculado().isEmpty()) {
             System.out.println("Nenhuma turma encontrada");
             return;
         }
@@ -101,7 +106,7 @@ public class ModuloAluno {
     }
 
     public void visualizarDisciplinas() {
-        if(utils.getDisciplinasAtivas().isEmpty()) {
+        if (utils.getDisciplinasAtivas().isEmpty()) {
             System.out.println("Nenhuma disciplina encontrada");
             return;
         }

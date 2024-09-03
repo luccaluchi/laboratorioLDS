@@ -54,4 +54,9 @@ public abstract class Usuario {
     }
     public abstract String toString();
 
+    public static Usuario fromString(String string) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fromString'");
+    }
+
 }
